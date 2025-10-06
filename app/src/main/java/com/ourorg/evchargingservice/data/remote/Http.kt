@@ -6,7 +6,7 @@ import java.net.URL
 
 object Http {
     // TODO: point to your real API base
-    private const val BASE = "https://boltevcharging-c6f0g0dme0bea2gg.eastasia-01.azurewebsites.net"
+    private const val BASE = "https://boltevcharging-c6f0g0dme0bea2gg.eastasia-01.azurewebsites.net/api"
 
     @Throws(RuntimeException::class)
     fun request(
