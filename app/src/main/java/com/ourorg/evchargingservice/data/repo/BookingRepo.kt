@@ -9,14 +9,14 @@ class BookingRepo(private val sessionDao: SessionDao) {
     private fun nic() = sessionDao.get()?.first ?: throw IllegalStateException("No session")
 
     fun create(stationId: String, startIso: String) =
-        Http.request("/bookings", "POST", JSONObject().put("nic", nic()).put("stationId", stationId).put("startTime", startIso), token())
+        Http.request("/bookings", "POST", JSONObject().put("ownerNIC", nic()).put("stationId", stationId).put("reservationDateTime", startIso), token())
 
     fun update(id: String, startIso: String) =
-        Http.request("/bookings/$id", "PUT", JSONObject().put("startTime", startIso), token())
+        Http.request("/bookings/$id", "PUT", JSONObject().put("reservationDateTime", startIso), token())
 
     fun cancel(id: String) = Http.request("/bookings/$id", "DELETE", null, token())
 
-    fun list(status: String) = Http.request("/bookings?nic=${nic()}&status=$status", token = token())
+    fun list(status: String) = Http.request("/bookings?ownerNIC=${nic()}&status=$status", token = token())
 
     fun qrPayload(id: String) = Http.request("/bookings/$id/qr", token = token())
 }

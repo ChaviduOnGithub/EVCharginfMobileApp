@@ -10,6 +10,6 @@ class StationRepo(private val sessionDao: SessionDao) {
         val path = "/stations?lat=$lat&lng=$lng&radiusKm=$radiusKm"
         return Http.request(path, token = token).getJSONArray("items")
     }
-    fun details(stationId: String) = Http.request("/stations/$stationId",
+    fun details(stationId: String) = Http.request("/station/$stationId",
         token = sessionDao.get()?.second ?: throw IllegalStateException("No session"))
 }
