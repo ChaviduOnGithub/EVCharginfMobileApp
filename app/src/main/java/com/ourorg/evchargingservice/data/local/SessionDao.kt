@@ -18,4 +18,14 @@ class SessionDao(private val db: AppDb) {
         }
     }
     fun clear() { db.writableDatabase.delete("session", null, null) }
+
+    fun getUserNic(): String? {
+        return get()?.first
+    }
+
+    fun getToken(): String? {
+        return get()?.second
+    }
+
+
 }

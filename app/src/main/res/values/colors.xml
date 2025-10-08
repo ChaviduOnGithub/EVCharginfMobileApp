@@ -1,9 +1,12 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="primary">#2F7BEB</color>
     <color name="secondary">#00C2A8</color>
     <color name="surface">#FFFFFF</color>
     <color name="surfaceVariant">#F3F5F7</color>
     <color name="onSurface">#111418</color>
+    <color name="onSurfaceVariant">#6B6B6B</color> <!-- added -->
     <color name="danger">#E53935</color>
+
+    <color name="primaryVariant">#3700B3</color> <!-- Chip stroke -->
+    <color name="white">#FFFFFF</color> <!-- White font / icon color -->
 </resources>

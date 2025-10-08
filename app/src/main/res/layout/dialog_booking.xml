@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <!-- Reservation Date & Time -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Select Date &amp; Time"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/editReservationDateTime"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="YYYY-MM-DD HH:mm"
+        android:focusable="false"
+        android:clickable="true"
+        android:inputType="none"
+        android:background="@drawable/rounded_edittext"
+        android:padding="10dp" />
+
+    <!-- Optional details -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Details (optional)"
+        android:layout_marginTop="12dp"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/editDetails"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="E.g., Charger type preference"
+        android:background="@drawable/rounded_edittext"
+        android:padding="10dp"
+        android:inputType="text" />
+
+</LinearLayout>

@@ -23,10 +23,12 @@ import com.ourorg.evchargingservice.data.repo.OperatorRepo
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import org.json.JSONObject
 import java.nio.ByteBuffer
 import java.util.concurrent.Executors
 
 class QrScanActivity : AppCompatActivity() {
+
     private lateinit var repo: OperatorRepo
     private lateinit var preview: PreviewView
     private val exec = Executors.newSingleThreadExecutor()
@@ -39,6 +41,7 @@ class QrScanActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_qr_scan)
+
         repo = OperatorRepo(SessionDao(AppDb(this)))
         preview = findViewById(R.id.previewView)
 
@@ -58,18 +61,30 @@ class QrScanActivity : AppCompatActivity() {
                 setAnalyzer(exec) { img -> decode(img) }
             }
             cameraProvider.unbindAll()
-            cameraProvider.bindToLifecycle(this, CameraSelector.DEFAULT_BACK_CAMERA, previewUseCase, analysis)
+            cameraProvider.bindToLifecycle(
+                this,
+                CameraSelector.DEFAULT_BACK_CAMERA,
+                previewUseCase,
+                analysis
+            )
         }, ContextCompat.getMainExecutor(this))
     }
 
     private fun decode(image: ImageProxy) {
-        if (handled) { image.close(); return }
+        if (handled) {
+            image.close()
+            return
+        }
+
         val buffer: ByteBuffer = image.planes[0].buffer
-        val bytes = ByteArray(buffer.remaining()); buffer.get(bytes)
-        val width = image.width; val height = image.height
+        val bytes = ByteArray(buffer.remaining())
+        buffer.get(bytes)
+        val width = image.width
+        val height = image.height
 
         val source = PlanarYUVLuminanceSource(bytes, width, height, 0, 0, width, height, false)
         val bitmap = BinaryBitmap(HybridBinarizer(source))
+
         try {
             val result = MultiFormatReader().decode(bitmap)
             handled = true
@@ -83,15 +98,23 @@ class QrScanActivity : AppCompatActivity() {
     private fun onQr(text: String) {
         lifecycleScope.launch(Dispatchers.IO) {
             try {
-                val res = repo.scan(text)
+                val res: JSONObject = repo.scan(text) // explicitly JSONObject
+                val bookingId = res.getString("bookingId")
                 withContext(Dispatchers.Main) {
-                    Toast.makeText(this@QrScanActivity, "Booking: ${res.getString("bookingId")}", Toast.LENGTH_LONG).show()
-                    // you can navigate to a detail/confirm screen here
+                    Toast.makeText(
+                        this@QrScanActivity,
+                        "Booking: $bookingId",
+                        Toast.LENGTH_LONG
+                    ).show()
                     finish()
                 }
             } catch (e: Exception) {
                 withContext(Dispatchers.Main) {
-                    Toast.makeText(this@QrScanActivity, e.message, Toast.LENGTH_LONG).show()
+                    Toast.makeText(
+                        this@QrScanActivity,
+                        e.message ?: "Unknown error",
+                        Toast.LENGTH_LONG
+                    ).show()
                     finish()
                 }
             }

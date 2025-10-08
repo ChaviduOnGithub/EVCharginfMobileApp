@@ -12,12 +12,15 @@ import com.ourorg.evchargingservice.data.local.AppDb
 import com.ourorg.evchargingservice.data.local.SessionDao
 import com.ourorg.evchargingservice.data.repo.AuthRepo
 import com.ourorg.evchargingservice.ui.owner.OwnerDashboardActivity
-import com.ourorg.evchargingservice.ui.operator.OperatorHomeActivity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import org.json.JSONObject
+import retrofit2.HttpException
+import java.io.IOException
 
 class LoginActivity : AppCompatActivity() {
+
     private lateinit var repo: AuthRepo
     private lateinit var sessionDao: SessionDao
 
@@ -28,38 +31,69 @@ class LoginActivity : AppCompatActivity() {
         sessionDao = SessionDao(AppDb(this))
         repo = AuthRepo(sessionDao)
 
-        // auto-route if session exists
-        sessionDao.get()?.let { (_, _, role) ->
-            route(role); return
-        }
-
         val etNic = findViewById<EditText>(R.id.etNic)
         val etPwd = findViewById<EditText>(R.id.etPwd)
-        findViewById<Button>(R.id.btnLogin).setOnClickListener {
+        val btnLogin = findViewById<Button>(R.id.btnLogin)
+        val btnGoRegister = findViewById<Button>(R.id.btnGoRegister)
+
+        btnLogin.setOnClickListener {
             val nic = etNic.text.toString().trim()
             val pwd = etPwd.text.toString()
-            if (nic.isEmpty() || pwd.isEmpty()) { toast("Enter NIC & Password"); return@setOnClickListener }
+
+            if (nic.isEmpty() || pwd.isEmpty()) {
+                toast("Please enter both NIC and Password")
+                return@setOnClickListener
+            }
+
             lifecycleScope.launch(Dispatchers.IO) {
                 try {
-                    repo.login(nic, pwd)
-                    val role = sessionDao.get()!!.third
-                    withContext(Dispatchers.Main) { route(role) }
+                    val response = repo.login(nic, pwd)
+                    withContext(Dispatchers.Main) {
+                        toast("Login successful!")
+                        routeToOwnerDashboard()
+                    }
+
+                } catch (e: HttpException) {
+                    val errorMsg = parseHttpError(e)
+                    withContext(Dispatchers.Main) {
+                        toast(errorMsg)
+                    }
+
+                } catch (e: IOException) {
+                    withContext(Dispatchers.Main) {
+                        toast("Network error! Please check your internet connection.")
+                    }
+
                 } catch (e: Exception) {
-                    withContext(Dispatchers.Main) { toast(e.message ?: "Login failed") }
+                    withContext(Dispatchers.Main) {
+                        toast("Unexpected error: ${e.message}")
+                    }
                 }
             }
         }
 
-        findViewById<Button>(R.id.btnGoRegister).setOnClickListener {
+        btnGoRegister.setOnClickListener {
             startActivity(Intent(this, RegisterActivity::class.java))
         }
     }
 
-    private fun route(role: String) {
-        val target = if (role.equals("OPERATOR", true)) OperatorHomeActivity::class.java else OwnerDashboardActivity::class.java
-        startActivity(Intent(this, target))
+    private fun parseHttpError(e: HttpException): String {
+        return try {
+            val errorBody = e.response()?.errorBody()?.string()
+            val message = JSONObject(errorBody ?: "{}").optString("message")
+            message.ifEmpty { "Invalid NIC or Password" }
+        } catch (ex: Exception) {
+            "Login failed, please try again."
+        }
+    }
+
+    private fun routeToOwnerDashboard() {
+        val intent = Intent(this, OwnerDashboardActivity::class.java)
+        startActivity(intent)
         finish()
     }
 
-    private fun toast(s: String) = Toast.makeText(this, s, Toast.LENGTH_LONG).show()
+    private fun toast(msg: String) {
+        Toast.makeText(this, msg, Toast.LENGTH_LONG).show()
+    }
 }

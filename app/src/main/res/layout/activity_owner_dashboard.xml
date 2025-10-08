@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/surfaceVariant"
@@ -22,6 +21,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+        <!-- Upcoming Bookings -->
         <com.google.android.material.card.MaterialCardView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -34,12 +34,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <TextView
-                    android:text="Pending"
+                    android:text="Upcoming Bookings"
                     android:textColor="@color/onSurface"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
                 <TextView
-                    android:id="@+id/tvPending"
+                    android:id="@+id/tvUpcoming"
                     android:text="-"
                     android:textStyle="bold"
                     android:textSize="24sp"
@@ -48,6 +48,7 @@
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
+        <!-- Past Bookings -->
         <com.google.android.material.card.MaterialCardView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -60,12 +61,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <TextView
-                    android:text="Approved"
+                    android:text="Past Bookings"
                     android:textColor="@color/onSurface"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
                 <TextView
-                    android:id="@+id/tvApproved"
+                    android:id="@+id/tvPast"
                     android:text="-"
                     android:textStyle="bold"
                     android:textSize="24sp"
@@ -93,4 +94,57 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:cornerRadius="16dp"/>
+
+    <!-- Next Closest Booking -->
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardNextBooking"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:cardCornerRadius="16dp"
+        android:visibility="gone"> <!-- initially hidden -->
+
+        <LinearLayout
+            android:padding="16dp"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:text="Next Booking"
+                android:textColor="@color/onSurface"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:id="@+id/tvNextStation"
+                android:text="-"
+                android:textSize="14sp"
+                android:textColor="@color/onSurfaceVariant"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"/>
+
+            <TextView
+                android:id="@+id/tvNextDate"
+                android:text="-"
+                android:textSize="14sp"
+                android:textColor="@color/onSurfaceVariant"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"/>
+
+            <TextView
+                android:id="@+id/tvNextTime"
+                android:text="-"
+                android:textSize="14sp"
+                android:textColor="@color/onSurfaceVariant"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"/>
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
 </LinearLayout>

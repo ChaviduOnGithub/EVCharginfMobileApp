@@ -1,0 +1,35 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+
+    <!-- Center circle -->
+    <path
+        android:fillColor="#2979FF"
+        android:pathData="M12,8
+            a4,4 0 1,1 -4,4
+            4,4 0 0,1 4,-4"/>
+
+    <!-- Outer ring -->
+    <path
+        android:fillColor="#2979FF"
+        android:pathData="M12,2
+            a1,1 0 0,1 1,1
+            v2.07
+            a7,7 0 0,1 5.93,5.93
+            H21
+            a1,1 0 0,1 0,2
+            h-2.07
+            a7,7 0 0,1 -5.93,5.93
+            V21
+            a1,1 0 0,1 -2,0
+            v-2.07
+            a7,7 0 0,1 -5.93,-5.93
+            H3
+            a1,1 0 0,1 0,-2
+            h2.07
+            a7,7 0 0,1 5.93,-5.93
+            V3
+            a1,1 0 0,1 1,-1z"/>
+</vector>

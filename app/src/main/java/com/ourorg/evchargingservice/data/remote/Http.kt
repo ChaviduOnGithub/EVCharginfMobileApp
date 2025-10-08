@@ -1,20 +1,21 @@
 package com.ourorg.evchargingservice.data.remote
 
+import org.json.JSONArray
+import org.json.JSONException
 import org.json.JSONObject
 import java.net.HttpURLConnection
 import java.net.URL
 
 object Http {
-    // TODO: point to your real API base
-    private const val BASE = "https://boltevcharging-c6f0g0dme0bea2gg.eastasia-01.azurewebsites.net/api"
+    private const val BASE = "http://172.20.10.3:5009/api"
 
-    @Throws(RuntimeException::class)
+    @Throws(RuntimeException::class, JSONException::class)
     fun request(
         path: String,
         method: String = "GET",
         body: JSONObject? = null,
         token: String? = null
-    ): JSONObject {
+    ): Any { // Returns JSONObject or JSONArray
         val url = URL("$BASE$path")
         val conn = (url.openConnection() as HttpURLConnection).apply {
             requestMethod = method
@@ -27,10 +28,19 @@ object Http {
                 outputStream.bufferedWriter().use { it.write(body.toString()) }
             }
         }
+
         val code = conn.responseCode
         val stream = if (code in 200..299) conn.inputStream else conn.errorStream
         val text = stream.bufferedReader().use { it.readText() }
+
         if (code !in 200..299) throw RuntimeException("HTTP $code: $text")
-        return if (text.isEmpty()) JSONObject() else JSONObject(text)
+
+        val trimmed = text.trim()
+        return when {
+            trimmed.isEmpty() -> JSONObject()
+            trimmed.startsWith("{") -> JSONObject(trimmed)
+            trimmed.startsWith("[") -> JSONArray(trimmed)
+            else -> throw JSONException("Unknown JSON format")
+        }
     }
 }
