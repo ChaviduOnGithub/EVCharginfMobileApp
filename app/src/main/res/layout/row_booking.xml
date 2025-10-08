@@ -1,9 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal" android:padding="12dp"
-    android:layout_width="match_parent" android:layout_height="wrap_content">
-    <TextView android:id="@+id/tvTitle" android:layout_weight="1"
-        android:layout_width="0dp" android:layout_height="wrap_content" android:textSize="16sp"/>
-    <Button android:id="@+id/btnQR" android:text="QR" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
-    <Button android:id="@+id/btnCancel" android:text="Cancel" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="8dp"/>
-</LinearLayout>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginVertical="6dp"
+    android:layout_marginHorizontal="8dp"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="2dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:padding="14dp"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:text="Station • 2025-10-02 09:00"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:textColor="@color/onSurface"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chipStatus"
+            style="@style/Widget.Material3.Chip.Assist"
+            android:text="approved"
+            android:layout_marginTop="6dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <LinearLayout
+            android:layout_marginTop="10dp"
+            android:gravity="end"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnQR"
+                android:text="QR"
+                style="?attr/materialButtonOutlinedStyle"
+                app:cornerRadius="12dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnCancel"
+                android:text="Cancel"
+                android:layout_marginStart="8dp"
+                app:cornerRadius="12dp"
+                app:backgroundTint="@color/danger"
+                android:textColor="@android:color/white"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>

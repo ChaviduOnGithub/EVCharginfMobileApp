@@ -61,6 +61,8 @@ dependencies {
     implementation("androidx.camera:camera-view:1.3.4")
     implementation("com.google.zxing:core:3.5.3")
 
+    implementation("com.google.android.material:material:1.12.0")
+
     // Tests
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

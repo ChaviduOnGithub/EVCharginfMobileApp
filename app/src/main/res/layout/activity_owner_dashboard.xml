@@ -1,9 +1,96 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:padding="24dp"
-    android:layout_width="match_parent" android:layout_height="match_parent">
-    <TextView android:id="@+id/tvPending" android:text="Pending: -" android:textSize="18sp" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
-    <TextView android:id="@+id/tvApproved" android:text="Approved: -" android:textSize="18sp" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="8dp"/>
-    <Button android:id="@+id/btnMap" android:text="Find Nearby Stations" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="16dp"/>
-    <Button android:id="@+id/btnMyBookings" android:text="My Bookings" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="8dp"/>
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/surfaceVariant"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:text="Dashboard"
+        android:textStyle="bold"
+        android:textSize="22sp"
+        android:textColor="@color/onSurface"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <LinearLayout
+        android:layout_marginTop="12dp"
+        android:orientation="horizontal"
+        android:weightSum="2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            app:cardCornerRadius="16dp"
+            android:layout_weight="1">
+            <LinearLayout
+                android:padding="16dp"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:text="Pending"
+                    android:textColor="@color/onSurface"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:id="@+id/tvPending"
+                    android:text="-"
+                    android:textStyle="bold"
+                    android:textSize="24sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            app:cardCornerRadius="16dp"
+            android:layout_weight="1">
+            <LinearLayout
+                android:padding="16dp"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:text="Approved"
+                    android:textColor="@color/onSurface"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:id="@+id/tvApproved"
+                    android:text="-"
+                    android:textStyle="bold"
+                    android:textSize="24sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+    </LinearLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnMap"
+        android:text="Find nearby stations"
+        android:layout_marginTop="18dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cornerRadius="16dp"
+        app:backgroundTint="@color/secondary"
+        android:textColor="@android:color/white"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnMyBookings"
+        android:text="My bookings"
+        style="?attr/materialButtonOutlinedStyle"
+        android:layout_marginTop="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cornerRadius="16dp"/>
 </LinearLayout>
